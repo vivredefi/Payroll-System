@@ -1,0 +1,5 @@
+1. create a database called payroll-management-system
+
+username = admin
+password = 1234
+
