@@ -23,132 +23,206 @@ $result = mysqli_query($link, $sql);
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" />
     <style>
-         body{
-        background-color: #E4E5E7;
-    }
-    /*Header */
-    .logoicon {
+         body {
+    background-color: #E4E5E7;
+}
+
+/* Header */
+.logoicon {
     width: 23px;
-    height: 23px ;
-    margin-right: 8px ;
-    margin-left: 40px;  /* Reduce left margin if needed */
+    height: 23px;
+    margin-right: 8px;
+    margin-left: 40px;
     margin-bottom: 5px;
-    }
+}
 
-    .header {
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        background-color: #ffffff;
-        padding: 10px 10px;
-    }
+.header {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #ffffff;
+    padding: 10px 10px;
+}
 
-    .header a {
-        float: left;
-        color: black;
-        text-align: center;
-        padding: 12px;
-        text-decoration: none;
-        font-size: 18px;
-        line-height: 25px;
-        border-radius: 4px;
-    }
+.header a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 25px;
+    border-radius: 4px;
+}
 
-    .header a.logo {
-        font-family: "Atkinson Hyperlegible Next", serif;
-        font-size: 25px;
-        font-weight: bold;
-        padding-left: 5px;
-        padding-right: 10px;
-    }
-    /*Table*/
-    .table-container {
+.header a.logo {
+    font-family: "Atkinson Hyperlegible Next", serif;
+    font-size: 25px;
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+/* Table */
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.table-container {
     background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 20px;
     overflow: hidden;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.table th, .table td {
+    background-color: white !important;
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    white-space: normal;
+}
+
+.table th {
+    font-weight: normal;
+    color: black;
+    text-align: left;
+}
+
+.table-container .table td {
+    background-color: white !important;
+}
+
+.table-container {
+    overflow: hidden !important;
+    padding-right: 20px; /* Adds space at the right */
+}
+
+.table {
+    min-width: unset !important;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures the table doesn't shrink too much */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.table-container {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+}
+
+#table_wrapper {
+    overflow-x: hidden !important;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+
+    table, thead, tbody, th, td, tr {
+        display: block;
     }
-
-    .search-bar {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-    }
-
-    .table th, .table td {
-        background-color: white !important;
-        padding: 12px;
-        border: 1px solid #ddd;
-        text-align: center;
-        white-space: normal;
-
-    }
-
-    .table th {
-        font-weight: normal;
-        color:black;
-        text-align: left;
-    }
-
-    .table-container .table td {
-        background-color: white !important;
-    }
-
     .table-container {
-        overflow: hidden !important;
+        margin: 0 auto; /* Centers the table with equal spacing */
+    }
+    thead tr {
+        display: none; /* Hide table headers */
+    }
+
+    tr {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    td {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 10px;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 0;
+        height: 100%;
+        width: 250px;
+        background: #333;
+        transition: 0.3s;
+        padding-top: 20px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .content {
+        margin-left: 0 !important;
     }
 
     .table-responsive {
+        padding-right: 20px;
         overflow-x: auto;
-        max-width: 100%;
+        width: 100%;
         white-space: nowrap;
+        display: block;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px; /* Optional: Adds a smoother look */
     }
+    .table th, .table td {
+    font-size: 14px;
+    padding: 8px;
+    white-space: nowrap; /* Prevents text from breaking */
+}
 
-    .table {
-        min-width: unset !important;
-        width: 100%;
-        width: 100%;
-        table-layout: fixed; 
-        border-collapse: collapse;
-    }
+}
 
-    .table-container {
-    overflow-x: hidden; 
-    max-width: 100%;
-    width: 100%;
-    }
-    #table_wrapper {
-    overflow-x: hidden !important;
-    }
-
-    /* Add Button */
-    .btn-primary {
+/* Add Button */
+.btn-primary {
     border-radius: 6px !important;
-    background-color: #1a1a3c; 
+    background-color: #1a1a3c;
     color: white;
-    padding: 8px 10px; 
+    padding: 8px 10px;
     font-size: 14px;
     font-weight: normal;
     border: none;
-    white-space: nowrap; 
-    min-width: 145px; 
-    }
-    
-    .addicon{
-        margin-right: 5px ;
-        margin-left: 3px ;
-        margin-bottom: 3px;
-    }
-
-.btn-primary:hover {
-    background-color: #14142b; /* Slightly darker on hover */
+    white-space: nowrap;
+    min-width: 145px;
 }
 
+.addicon {
+    margin-right: 5px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
 
+.btn-primary:hover {
+    background-color: #14142b;
+}
     </style>
 </head>
 
@@ -340,6 +414,7 @@ $result = mysqli_query($link, $sql);
                 data-bs-target="#addModal"><img src='plus.png' alt='Edit' class= "addicon" height='8' width='9'>New Branch
             </button>
         </div>
+
         <div class="table-container p-4">
             <div class="table-responsive m-3">
                 <table class="table table-bordered table-striped text-center p-1" id="table">
@@ -377,7 +452,12 @@ $result = mysqli_query($link, $sql);
         </div>
     </div>
     </div>
-
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            document.getElementById("side_nav").classList.toggle("active");
+        });
+    </script>
+                 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Datatables Scripts-->
