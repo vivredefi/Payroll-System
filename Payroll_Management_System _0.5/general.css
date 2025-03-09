@@ -1,0 +1,11 @@
+.dataTables_filter input {
+    width: 300px;
+    height: 40px;
+    font-size: 16px;
+    padding: 5px 10px;
+}
+/* Center the search bar */
+#custom-search-container {
+    text-align: start;
+    margin-bottom: 10px;
+}
