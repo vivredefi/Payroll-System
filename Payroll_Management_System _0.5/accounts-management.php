@@ -12,6 +12,7 @@ $result = mysqli_query($link, $sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Accounts Management</title>
     <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -19,8 +20,23 @@ $result = mysqli_query($link, $sql);
     <!-- Datatables CSS-->
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" />
-</head>
+<style>
+    /*Table*/
+    @media screen and (min-width: 768px) { 
+    /* Hide horizontal scrollbar for web view */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+    }
 
+    @media screen and (max-width: 767px) {
+    /* Allow horizontal scrolling for mobile view */
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
 <body>
     <div class="main-container d-flex">
         <!-- Sidebar -->
@@ -90,28 +106,45 @@ $result = mysqli_query($link, $sql);
                         <form action="account-edit.php" method="post">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="editModalLabel">Edit Account Details</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <p>Fill up this form and submit to edit employee details.</p>
-                                <?php
-                                echo "Username: <input type='text' name='edittxtusername' required readonly id='edittxtusername'><br><br>"
-                                    ?>
-                                Password: <input type="password" name="edittxtuserpass" id="edittxtuserpass"
-                                    required><br><br>
-                                <input type="checkbox" class="form-check-input" id="showPassword" />
-                                <label class="form-check-label" for="showPassword">Show Password</label>
-                                Usertype: <select name="editcmbusertype" id="editcmbusertype" required>
-                                    <option value="">--Select User Type --</option>
-                                    <option value="STAFF">STAFF</option>
-                                    <!--<option value="ADMINISTRATOR">ADMINISTRATOR</option>-->
-                                </select><br><br>
-                                Branch: <select name="editcmbuserstatus" id="editcmbuserstatus" required>
-                                    <option value="">--Select User Status --</option>
-                                    <option value="ACTIVE">ACTIVE</option>
-                                    <option value="INACTIVE">INACTIVE</option>
-                                </select><br><br>
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td><label class="fw-bold">Username:</label></td>
+                                            <td><input type="text" name="edittxtusername" id="edittxtusername" class="form-control" required readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Password:</label></td>
+                                            <td>
+                                                <input type="password" name="edittxtuserpass" id="edittxtuserpass" class="form-control" required>
+                                                <input type="checkbox" class="form-check-input mt-2" id="showPassword">
+                                                <label class="form-check-label" for="showPassword">Show Password</label>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">User Type:</label></td>
+                                            <td>
+                                                <select name="editcmbusertype" id="editcmbusertype" class="form-select" required>
+                                                    <option value="">--Select User Type--</option>
+                                                    <option value="STAFF">STAFF</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Status:</label></td>
+                                            <td>
+                                                <select name="editcmbuserstatus" id="editcmbuserstatus" class="form-select" required>
+                                                    <option value="">--Select Status--</option>
+                                                    <option value="ACTIVE">ACTIVE</option>
+                                                    <option value="INACTIVE">INACTIVE</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -230,20 +263,18 @@ $result = mysqli_query($link, $sql);
                 $("#deleteModal").modal("show");
             });
         });
-
-
-        document.getElementById("showPassword").addEventListener("change", function () {
-            const passwordField = document.getElementById("password");
-            if (this.checked) {
-                passwordField.type = "text";
-            } else {
-                passwordField.type = "password";
-            }
-        });
     </script>
     </script>
     <script defer src="sidebar.js">
     </script>
-</body>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("showPassword").addEventListener("change", function () {
+        const passwordField = document.getElementById("edittxtuserpass");
+        passwordField.type = this.checked ? "text" : "password";
+    });
+});
 
+    </script>
+</body>
 </html>

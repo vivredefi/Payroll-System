@@ -27,11 +27,11 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Employees Management</title>
     <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -39,8 +39,23 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
     <!-- Datatables CSS-->
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" />
-</head>
+<style>
+    /*Table*/
+    @media screen and (min-width: 768px) { 
+    /* Hide horizontal scrollbar for web view */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+    }
 
+    @media screen and (max-width: 767px) {
+    /* Allow horizontal scrolling for mobile view */
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+</style>
+</head>
 <body>
     <div class="main-container d-flex">
         <!-- Sidebar -->
@@ -104,58 +119,67 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
             ?>
 
 
-            <!-- Add Modal -->
+            <!-- Add Employee Modal -->
             <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="employee-add.php" method="post">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="addModalLabel">Add New Employee</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?php
-                                if (isset($_SESSION['executionStatuss'])) {
-                                    echo "<script>$('#createModal').modal('show');</script>";
-                                    echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" . $_SESSION['executionStatuss'] . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-                                    unset($_SESSION['executionStatuss']);
-                                    echo "<script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            // Get the modal element
-                                            var modal = document.getElementById('createModal');
-                                            // Create a new Bootstrap modal instance
-                                            var modalInstance = new bootstrap.Modal(modal);
-                                            // Show the modal
-                                            modalInstance.show();
-                                        });
-                                        </script>";
-                                }
-                                ?>
-                                <p>Fill up this form and submit to create a new employee details.</p>
-                                <?php
-                                echo "Employee ID: <input type='text' name='txtemployee_id' required readonly value='$latestemployeenumber'><br><br>"
-                                    ?>
-                                Name: <input type="text" name="txtname" required><br><br>
-                                Password: <input type="password" name="txtpassword" id="txtpassword"> <input
-                                    type="button" onclick="showPassword()" value="Show" class="showbtn"
-                                    id="showbtn"><br><br>
-                                Position: <select name="cmbposition" required>
-                                    <option value="">--Select Job Position --</option>
-                                    <option value="LAUNDRY ATTENDANT">LAUNDRY ATTENDANT</option>
-                                </select><br><br>
-                                Branch: <select name="cmbbranch" required>
-                                    <option value="">--Select Branch --</option>
-                                    <?php
-                                    $addbranchsql = "SELECT * FROM tblbranches";
-                                    $branchresult = mysqli_query($link, $addbranchsql);
-                                    while ($row = mysqli_fetch_array($branchresult)) {
-                                        $branchnameresult = $row["branchname"];
-                                        echo "<option value='" . $row['branchname'] . "'>" . $row['branchname'] . "</option>";
-                                    }
-                                    ?>
-                                </select><br><br>
-                                Daily Rate: <input type="number" name="txtdailyrate" required><br><br>
+                                <p>Fill up this form and submit to add a new employee.</p>
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td><label class="fw-bold">Employee ID:</label></td>
+                                            <td><input type="text" name="txtemployee_id" class="form-control" required readonly value="<?php echo $latestemployeenumber; ?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Name:</label></td>
+                                            <td><input type="text" name="txtname" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Password:</label></td>
+                                            <td>
+                                                <input type="password" name="txtpassword" id="txtpassword" class="form-control" required>
+                                                <div class="form-check mt-2">
+                                                    <input type="checkbox" class="form-check-input custom-checkbox" id="showAddPassword">
+                                                    <label class="form-check-label" for="showAddPassword">Show Password</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Position:</label></td>
+                                            <td>
+                                                <select name="cmbposition" class="form-select" required>
+                                                    <option value="">--Select Job Position--</option>
+                                                    <option value="LAUNDRY ATTENDANT">LAUNDRY ATTENDANT</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Branch:</label></td>
+                                            <td>
+                                                <select name="cmbbranch" class="form-select" required>
+                                                    <option value="">--Select Branch--</option>
+                                                    <?php
+                                                        $addbranchsql = "SELECT * FROM tblbranches";
+                                                        $branchresult = mysqli_query($link, $addbranchsql);
+                                                        while ($row = mysqli_fetch_array($branchresult)) {
+                                                            echo "<option value='" . $row['branchname'] . "'>" . $row['branchname'] . "</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Daily Rate:</label></td>
+                                            <td><input type="number" name="txtdailyrate" class="form-control" required></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -165,52 +189,56 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
                     </div>
                 </div>
             </div>
-
-            <!-- Edit Modal -->
+                    <!-- Edit Employee Modal -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="employee-edit.php" method="post">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="editModalLabel">Edit Employee Details</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <?php
-                                if (isset($_SESSION['executionStatuss'])) {
-                                    echo "<script>$('#createModal').modal('show');</script>";
-                                    echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>" . $_SESSION['executionStatuss'] . "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
-                                    unset($_SESSION['executionStatuss']);
-                                    echo "<script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            // Get the modal element
-                                            var modal = document.getElementById('createModal');
-                                            // Create a new Bootstrap modal instance
-                                            var modalInstance = new bootstrap.Modal(modal);
-                                            // Show the modal
-                                            modalInstance.show();
-                                        });
-                                        </script>";
-                                }
-                                ?>
                                 <p>Fill up this form and submit to edit employee details.</p>
-                                <?php
-                                echo "Employee ID: <input type='text' name='edittxtemployee_id' required readonly id='edittxtemployee_id'><br><br>"
-                                    ?>
-                                Name: <input type="text" name="edittxtname" id="edittxtname" required><br><br>
-                                Position: <select name="editcmbposition" id="editcmbposition" required>
-                                    <option value="">--Select Job Position --</option>
-                                    <option value="LAUNDRY ATTENDANT">LAUNDRY ATTENDANT</option>
-                                </select><br><br>
-                                Branch: <select name="editcmbbranch" id="editcmbbranch" required>
-                                    <option value="">--Select Branch --</option>
-                                    <option value="Branch 1">Branch 1</option>
-                                    <option value="Branch 2">Branch 2</option>
-                                    <option value="Branch 3">Branch 3</option>
-                                </select><br><br>
-                                Daily Rate: <input type="number" name="edittxtdailyrate" id="edittxtdailyrate"
-                                    required><br><br>
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td><label class="fw-bold">Employee ID:</label></td>
+                                            <td><input type="text" name="edittxtemployee_id" id="edittxtemployee_id" class="form-control" required readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Name:</label></td>
+                                            <td><input type="text" name="edittxtname" id="edittxtname" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Position:</label></td>
+                                            <td>
+                                                <select name="editcmbposition" id="editcmbposition" class="form-select" required>
+                                                    <option value="">--Select Job Position--</option>
+                                                    <option value="LAUNDRY ATTENDANT">LAUNDRY ATTENDANT</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Branch:</label></td>
+                                            <td>
+                                                <select name="editcmbbranch" id="editcmbbranch" class="form-select" required>
+                                                    <option value="">--Select Branch--</option>
+                                                    <?php
+                                                        $branchresult = mysqli_query($link, $addbranchsql);
+                                                        while ($row = mysqli_fetch_array($branchresult)) {
+                                                            echo "<option value='" . $row['branchname'] . "'>" . $row['branchname'] . "</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="fw-bold">Daily Rate:</label></td>
+                                            <td><input type="number" name="edittxtdailyrate" id="edittxtdailyrate" class="form-control" required></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -220,7 +248,6 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
                     </div>
                 </div>
             </div>
-
             <!-- Delete Modal -->
             <form action="employee-delete.php" method="POST">
                 <div class="modal" id="deleteModal">
@@ -340,6 +367,13 @@ $latestemployeenumber = "EMP" . ($latestainumber + 1);
 
     </script>
     <script defer src="sidebar.js">
+    </script>
+    <script>
+            // Show/Hide Password for Add Modal
+            document.getElementById("showAddPassword").addEventListener("change", function () {
+            const passwordField = document.getElementById("txtpassword");
+            passwordField.type = this.checked ? "text" : "password";
+        });
     </script>
 </body>
 
