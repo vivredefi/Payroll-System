@@ -24,6 +24,7 @@ $result = mysqli_query($link, $sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leave Management</title>
     <link rel="stylesheet" href="sidebar.css">
+    <link rel="stylesheet" href="general.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -31,6 +32,22 @@ $result = mysqli_query($link, $sql);
     <!-- Datatables CSS-->
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" />
+<style>
+    /*Table*/
+    @media screen and (min-width: 768px) { 
+    /* Hide horizontal scrollbar for web view */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+    }
+
+    @media screen and (max-width: 767px) {
+    /* Allow horizontal scrolling for mobile view */
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -175,8 +192,8 @@ $result = mysqli_query($link, $sql);
                                 echo "<td>" . $row['status'] . "</td>";
 
                                 echo "<td>";
-                                echo "<a class='btn btn-small btn-success approvebtn'>Approve</a>";
-                                echo "<a class='btn btn-small btn-danger declinebtn'>Delete</a>";
+                                echo "<a class='btn btn-small approvebtn'><img src='approve.png' alt='Edit' height='17' width='15'></a>";
+                                echo "<a class='btn btn-small declinebtn'><img src='deleteicon.png' alt='Edit' height='15' width='15'></a>";
                                 echo "</td>";
                                 echo "</tr>";
                             }

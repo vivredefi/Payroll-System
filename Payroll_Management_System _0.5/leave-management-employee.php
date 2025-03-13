@@ -32,6 +32,21 @@ $result = mysqli_query($link, $sql);
     <!-- Datatables CSS-->
     <link href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" />
+<style>
+    /*Table*/
+    @media screen and (min-width: 768px) { 
+    /* Hide horizontal scrollbar for web view */
+    .table-responsive {
+        overflow-x: hidden;
+    }
+    }
+
+    @media screen and (max-width: 767px) {
+    /* Allow horizontal scrolling for mobile view */
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
 </head>
 
 <body>
@@ -219,7 +234,7 @@ $result = mysqli_query($link, $sql);
                                 echo "<td>" . $row['status'] . "</td>";
 
                                 echo "<td>";
-                                echo "<a class='btn btn-small btn-danger deletebtn'>Delete</a>";
+                                echo "<a class='btn btn-small deletebtn'><img src='deleteicon.png' alt='Edit' height='15' width='15'></a>";
                                 echo "</td>";
                                 echo "</tr>";
                             }

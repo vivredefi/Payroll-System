@@ -11,7 +11,12 @@ if (isset($_POST['btnlogin'])) {
         session_start();
         $_SESSION['username'] = $_POST['txtusername'];
         $_SESSION['usertype'] = $account['usertype'];
-        header("location: employees-management.php");
+        if($_SESSION['usertype']==="ADMINISTRATOR"){
+          header("location: employees-management.php");
+
+        }else{
+          header("location: attendance-management-employee.php");
+        }
         echo "<font color='green'>Login Successful</font>";
       } else {
         echo "<font color='red'>Incorrect login details or account is disabled/inactive</font>";
